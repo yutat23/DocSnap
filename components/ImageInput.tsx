@@ -13,10 +13,8 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const readyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isCameraMode, setIsCameraMode] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
-  const [isVideoReady, setIsVideoReady] = useState(false);
 
   const processFile = useCallback(
     (file: File) => {
@@ -59,28 +57,12 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
   const startCamera = useCallback(async () => {
     try {
       setCameraError(null);
-      setIsVideoReady(false);
-      let stream: MediaStream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
-        });
-      } catch {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-      }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
       streamRef.current = stream;
       if (videoRef.current) {
-        const video = videoRef.current;
-        video.srcObject = stream;
-        const onReady = () => {
-          video.play().catch(() => {});
-          setIsVideoReady(true);
-        };
-        video.onloadedmetadata = onReady;
-        if (video.readyState >= 1) onReady();
-        readyTimeoutRef.current = setTimeout(() => setIsVideoReady((r) => r || true), 2000);
+        videoRef.current.srcObject = stream;
       }
       setIsCameraMode(true);
     } catch (err) {
@@ -92,49 +74,27 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
   }, [onError]);
 
   const stopCamera = useCallback(() => {
-    if (readyTimeoutRef.current) {
-      clearTimeout(readyTimeoutRef.current);
-      readyTimeoutRef.current = null;
-    }
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
     if (videoRef.current) {
-      videoRef.current.onloadedmetadata = null;
       videoRef.current.srcObject = null;
     }
     setIsCameraMode(false);
-    setIsVideoReady(false);
     setCameraError(null);
   }, []);
 
   const capturePhoto = useCallback(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    const stream = streamRef.current;
-    if (!video || !canvas || !stream) return;
-
-    let width = video.videoWidth;
-    let height = video.videoHeight;
-    if (width === 0 || height === 0) {
-      const track = stream.getVideoTracks()[0];
-      const settings = track?.getSettings();
-      if (settings?.width && settings?.height) {
-        width = settings.width;
-        height = settings.height;
-      }
-    }
-    if (width === 0 || height === 0) {
-      onError?.("カメラの準備ができていません。少し待ってから再度お試しください");
-      return;
-    }
+    if (!video || !canvas || !streamRef.current) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0);
 
     canvas.toBlob(
@@ -149,7 +109,7 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
     );
 
     stopCamera();
-  }, [processFile, stopCamera, onError]);
+  }, [processFile, stopCamera]);
 
   return (
     <div className="space-y-4">
@@ -169,7 +129,7 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
           className="hidden"
         />
 
-        {!isCameraMode ? (
+        {/* {!isCameraMode ? (
           <button
             type="button"
             onClick={startCamera}
@@ -193,7 +153,7 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
           capture="environment"
           onChange={handleCameraFileChange}
           className="hidden"
-        />
+        /> */}
       </div>
 
       {cameraError && (
@@ -214,10 +174,9 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
             <button
               type="button"
               onClick={capturePhoto}
-              disabled={!isVideoReady}
-              className="w-full py-3 rounded-xl bg-white text-black font-semibold hover:bg-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+              className="w-full py-3 rounded-xl bg-white text-black font-semibold hover:bg-slate-200 transition-colors"
             >
-              {isVideoReady ? "撮影" : "準備中..."}
+              撮影
             </button>
           </div>
         </div>

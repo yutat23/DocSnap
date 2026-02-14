@@ -49,7 +49,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto px-4 py-6">
           <h1 className="text-2xl font-bold tracking-tight">DocSnap</h1>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            ドキュメントをCamScanner風に見やすく整形
+            紙ドキュメントをスマホで撮影して、きれいに整形
           </p>
         </div>
       </header>
@@ -105,6 +105,17 @@ export default function Home() {
             )}
           </div>
         )}
+        {/* フッター */}
+        <div className="mt-8 text-center">
+          <a 
+            href="https://github.com/yutat23/DocSnap" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" className="inline w-4 h-4 mr-1 mb-1" />
+          </a>
+        </div>
       </main>
     </div>
   );

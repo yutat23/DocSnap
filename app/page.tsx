@@ -44,39 +44,45 @@ export default function Home() {
   }, [imageUrl]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div className="min-h-screen relative" style={{ background: "var(--background)", color: "var(--foreground)" }}>
+      {/* ドット柄オーバーレイ */}
+      <div className="fixed inset-0 pixel-bg pointer-events-none" aria-hidden />
+
+      <header className="relative border-b-4 border-[var(--pixel-border)] bg-[var(--pixel-cream)]" style={{ boxShadow: "0 4px 0 var(--pixel-shadow)" }}>
         <div className="max-w-2xl mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold tracking-tight">DocSnap</h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-wide" style={{ fontFamily: "var(--font-press-start), monospace" }}>
+            DocSnap
+          </h1>
+          <p className="text-sm mt-2 opacity-90">
             紙ドキュメントをスマホで撮影して、きれいに整形
           </p>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-8">
+      <main className="relative max-w-2xl mx-auto px-4 py-8">
         {!imageUrl ? (
           <div className="space-y-6">
-            <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-              <h2 className="text-lg font-semibold mb-4">画像を選択</h2>
+            <div className="pixel-border bg-[var(--pixel-cream)] p-6">
+              <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "var(--font-press-start), monospace" }}>画像を選択</h2>
               <ImageInput onImageSelect={handleImageSelect} onError={handleError} />
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             {error && (
-              <div className="rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 p-4 text-red-700 dark:text-red-400 text-sm">
+              <div className="pixel-border bg-red-100 p-4 text-red-700 text-sm border-red-400">
                 {error}
               </div>
             )}
 
-            <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div className="pixel-border bg-[var(--pixel-cream)] p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold">角を指定</h2>
+                <h2 className="text-lg font-bold" style={{ fontFamily: "var(--font-press-start), monospace" }}>角を指定</h2>
                 <button
                   type="button"
                   onClick={handleNewImage}
-                  className="text-sm px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="pixel-btn text-sm px-3 py-1.5 bg-[var(--pixel-mint)] hover:bg-[#22c55e] transition-colors"
+                  style={{ fontFamily: "var(--font-press-start), monospace" }}
                 >
                   別の画像
                 </button>
@@ -94,8 +100,8 @@ export default function Home() {
             </div>
 
             {imageElement && corners && (
-              <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-                <h2 className="text-lg font-semibold mb-4">整形</h2>
+              <div className="pixel-border bg-[var(--pixel-cream)] p-6">
+                <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "var(--font-press-start), monospace" }}>整形</h2>
                 <DocumentProcessor
                   imageElement={imageElement}
                   corners={corners}
@@ -111,7 +117,7 @@ export default function Home() {
             href="https://github.com/yutat23/DocSnap" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-block text-gray-500 hover:text-gray-700 transition-colors"
+            className="inline-block opacity-70 hover:opacity-100 transition-opacity"
           >
             <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" className="inline w-4 h-4 mr-1 mb-1" />
           </a>

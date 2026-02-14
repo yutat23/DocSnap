@@ -1,26 +1,96 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f0fdf4;
+  --foreground: #1e3a5f;
+  --pixel-pink: #5eb3f5;
+  --pixel-mint: #4ade80;
+  --pixel-lavender: #2dd4bf;
+  --pixel-cream: #ecfdf5;
+  --pixel-border: #1e3a5f;
+  --pixel-shadow: #a5d6ff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-pixelify);
+  --font-mono: var(--font-press-start);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), "Pixelify Sans", system-ui, sans-serif;
+}
+
+/* 8bit風ピクセルボーダー */
+.pixel-border {
+  border: 3px solid var(--pixel-border);
+  box-shadow:
+    4px 4px 0 var(--pixel-shadow),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+.pixel-btn {
+  border: 3px solid var(--pixel-border);
+  box-shadow:
+    4px 4px 0 var(--pixel-shadow),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.pixel-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow:
+    2px 2px 0 var(--pixel-shadow),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.pixel-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.pixel-btn:disabled {
+  transform: none;
+  cursor: not-allowed;
+}
+
+.pixel-btn:disabled:hover {
+  transform: none;
+}
+
+/* レンジスライダー */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--pixel-border);
+  border: 2px solid var(--pixel-cream);
+  cursor: pointer;
+  margin-top: -6px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--pixel-border);
+  border: 2px solid var(--pixel-cream);
+  cursor: pointer;
+}
+
+/* ドット柄背景（緑×青） */
+.pixel-bg {
+  background-image:
+    radial-gradient(circle at 25% 25%, var(--pixel-pink) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--pixel-mint) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+  opacity: 0.4;
 }

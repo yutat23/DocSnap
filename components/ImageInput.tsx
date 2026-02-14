@@ -117,7 +117,8 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
         <button
           type="button"
           onClick={() => galleryInputRef.current?.click()}
-          className="flex-1 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition-colors"
+          className="pixel-btn flex-1 px-4 py-3 bg-[var(--pixel-pink)] hover:bg-[#4a9eff] text-[var(--pixel-border)] font-bold transition-colors"
+          style={{ fontFamily: "var(--font-press-start), monospace" }}
         >
           ギャラリーから選択
         </button>
@@ -157,11 +158,11 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
       </div>
 
       {cameraError && (
-        <p className="text-sm text-red-600 dark:text-red-400">{cameraError}</p>
+        <p className="text-sm text-red-600">{cameraError}</p>
       )}
 
       {isCameraMode && (
-        <div className="relative rounded-xl overflow-hidden bg-slate-900">
+        <div className="relative overflow-hidden pixel-border bg-[var(--pixel-border)]">
           <video
             ref={videoRef}
             autoPlay
@@ -170,11 +171,12 @@ export function ImageInput({ onImageSelect, onError }: ImageInputProps) {
             className="w-full max-h-[50vh] object-contain"
           />
           <canvas ref={canvasRef} className="hidden" />
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
             <button
               type="button"
               onClick={capturePhoto}
-              className="w-full py-3 rounded-xl bg-white text-black font-semibold hover:bg-slate-200 transition-colors"
+              className="pixel-btn w-full py-3 bg-[var(--pixel-cream)] text-[var(--pixel-border)] font-bold hover:bg-white transition-colors"
+              style={{ fontFamily: "var(--font-press-start), monospace" }}
             >
               撮影
             </button>

@@ -188,13 +188,14 @@ export function CornerEditor({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-600 dark:text-slate-400">
+        <p className="text-sm opacity-90">
           四隅のマーカーをドラッグしてドキュメントの範囲を指定
         </p>
         <button
           type="button"
           onClick={handleReset}
-          className="text-sm px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+          className="pixel-btn text-sm px-3 py-1.5 bg-[var(--pixel-mint)] hover:bg-[#22c55e] transition-colors"
+          style={{ fontFamily: "var(--font-press-start), monospace" }}
         >
           リセット
         </button>
@@ -209,7 +210,7 @@ export function CornerEditor({
         <img
           src={imageUrl}
           alt="編集対象"
-          className="max-w-full h-auto block rounded-lg"
+          className="max-w-full h-auto block pixel-border"
           draggable={false}
           style={{ maxHeight: "60vh" }}
         />
@@ -227,11 +228,11 @@ export function CornerEditor({
             ]
               .map((p) => `${p.x},${p.y}`)
               .join(" ")}
-            fill="none"
-            stroke="rgb(59 130 246)"
-            strokeWidth="2"
+            fill="rgba(255, 158, 197, 0.2)"
+            stroke="var(--pixel-pink)"
+            strokeWidth="3"
             strokeDasharray="8 4"
-            strokeLinejoin="round"
+            strokeLinejoin="miter"
           />
         </svg>
         {displayCorners.map((corner, i) => {
@@ -242,7 +243,7 @@ export function CornerEditor({
               role="button"
               tabIndex={0}
               aria-label={CORNER_LABELS[i]}
-              className="absolute w-6 h-6 -ml-3 -mt-3 cursor-grab active:cursor-grabbing rounded-full bg-blue-500 border-2 border-white shadow-lg touch-none"
+              className="absolute w-6 h-6 -ml-3 -mt-3 cursor-grab active:cursor-grabbing touch-none pixel-border bg-[var(--pixel-pink)]"
               style={{
                 left: d.x,
                 top: d.y,
@@ -270,7 +271,7 @@ export function CornerEditor({
             })(),
           }}
         >
-          <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white shadow-xl bg-slate-100 dark:bg-slate-800">
+          <div className="relative w-full h-full overflow-hidden pixel-border bg-[var(--pixel-cream)]">
             <canvas
               ref={loupeCanvasRef}
               width={96}

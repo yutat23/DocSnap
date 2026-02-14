@@ -171,9 +171,9 @@ export function DocumentProcessor({
 
   return (
     <div className="space-y-4">
-      <div className="space-y-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 p-4">
+      <div className="space-y-4 pixel-border bg-[var(--pixel-cream)]/50 p-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-sm font-medium mb-1">
             コントラスト {contrast}%
           </label>
           <input
@@ -182,11 +182,12 @@ export function DocumentProcessor({
             max={500}
             value={contrast}
             onChange={(e) => setContrast(Number(e.target.value))}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200 dark:bg-slate-600 accent-emerald-500"
+            className="w-full h-3 appearance-none cursor-pointer bg-[var(--pixel-shadow)] accent-[var(--pixel-pink)]"
+            style={{ borderRadius: 0 }}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-sm font-medium mb-1">
             シャープ {sharpness}%
           </label>
           <input
@@ -195,11 +196,12 @@ export function DocumentProcessor({
             max={100}
             value={sharpness}
             onChange={(e) => setSharpness(Number(e.target.value))}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200 dark:bg-slate-600 accent-emerald-500"
+            className="w-full h-3 appearance-none cursor-pointer bg-[var(--pixel-shadow)] accent-[var(--pixel-mint)]"
+            style={{ borderRadius: 0 }}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+          <label className="block text-sm font-medium mb-2">
             二値化
           </label>
           <div className="flex flex-wrap gap-2">
@@ -208,11 +210,12 @@ export function DocumentProcessor({
                 key={level}
                 type="button"
                 onClick={() => setBinarize(level)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`pixel-btn px-3 py-1.5 text-sm font-bold transition-colors ${
                   binarize === level
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-500"
+                    ? "bg-[var(--pixel-pink)] text-white"
+                    : "bg-[var(--pixel-shadow)] hover:bg-[var(--pixel-lavender)]"
                 }`}
+                style={{ fontFamily: "var(--font-press-start), monospace" }}
               >
                 {level === "off" ? "オフ" : level === "light" ? "弱" : level === "medium" ? "中" : "強"}
               </button>
@@ -225,7 +228,8 @@ export function DocumentProcessor({
         type="button"
         onClick={processDocument}
         disabled={isProcessing}
-        className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-400 text-white font-semibold transition-colors"
+        className="pixel-btn w-full py-3 bg-[var(--pixel-mint)] hover:bg-[#22c55e] disabled:bg-[var(--pixel-shadow)] disabled:cursor-not-allowed text-[var(--pixel-border)] font-bold transition-colors disabled:transform-none disabled:shadow-none"
+        style={{ fontFamily: "var(--font-press-start), monospace" }}
       >
         {isProcessing ? loadingMessage || "処理中..." : "整形して適用"}
       </button>
@@ -235,12 +239,13 @@ export function DocumentProcessor({
           <img
             src={resultUrl}
             alt="整形済み"
-            className="w-full rounded-lg border border-slate-200 dark:border-slate-700"
+            className="w-full pixel-border"
           />
           <button
             type="button"
             onClick={downloadResult}
-            className="w-full py-3 rounded-xl bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-medium transition-colors"
+            className="pixel-btn w-full py-3 bg-[var(--pixel-lavender)] hover:bg-[#14b8a6] text-[var(--pixel-border)] font-bold transition-colors"
+            style={{ fontFamily: "var(--font-press-start), monospace" }}
           >
             ダウンロード
           </button>
